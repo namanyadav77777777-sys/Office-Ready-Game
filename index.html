@@ -3,288 +3,578 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Office Ready</title>
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#147555">
+  <meta name="theme-color" content="#126d53" />
+  <meta name="description" content="Practice real workplace situations and build job skills in Office Ready." />
+  <title>Office Ready — Workplace Challenge</title>
+  <link rel="manifest" href="./manifest.json" />
   <style>
+    :root {
+      color-scheme: light;
+      --green: #126d53;
+      --green-dark: #0c4938;
+      --green-soft: #e9f6ef;
+      --ink: #17221f;
+      --muted: #5c6b65;
+      --line: #dfe9e3;
+      --gold-soft: #fff4d7;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     * { box-sizing: border-box; }
 
     body {
-      margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      font-family: Arial, sans-serif;
-      color: #17221f;
-      background: #eaf2ed;
+      margin: 0;
+      padding: 28px 18px;
+      color: var(--ink);
+      background: linear-gradient(145deg, #dceee3, #f1f6f2 52%, #e7f1ea);
+      font-size: 16px;
+      line-height: 1.5;
     }
 
-    .game {
-      width: min(100%, 650px);
-      padding: 32px;
-      border-radius: 24px;
+    button { font: inherit; }
+    button:focus-visible { outline: 3px solid #e5a91e; outline-offset: 3px; }
+    [hidden] { display: none !important; }
+
+    .app-shell {
+      width: min(100%, 850px);
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #d6e4da;
+      border-radius: 22px;
       background: #fff;
-      box-shadow: 0 18px 50px #173d3020;
+      box-shadow: 0 12px 36px rgba(18, 61, 43, 0.09);
     }
 
-    .topline {
+    .app-header {
       display: flex;
+      min-height: 82px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+
+    .diamond-pill, .music-button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .diamond-pill { border-color: #f0dfb8; background: var(--gold-soft); }
+    .music-button { cursor: pointer; }
+    .music-button:hover { background: #f4f8f5; }
+
+    .screen { padding: 28px; }
+
+    .hero-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(210px, 0.75fr);
+      align-items: center;
+      gap: 24px;
+      min-height: 390px;
+      padding: 32px;
+      border: 1px solid #d6e8dc;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #f4fbf6, #e9f6ee);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      max-width: 510px;
+      margin-bottom: 14px;
+      font-size: clamp(32px, 5vw, 46px);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-description {
+      max-width: 490px;
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 9px;
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+      color: #34453d;
+    }
+
+    .feature-list li { display: flex; align-items: flex-start; gap: 9px; }
+    .feature-list li::before { content: "✓"; color: var(--green); font-weight: 900; }
+
+    .hero-art { display: grid; justify-items: center; gap: 14px; }
+
+    .hero-art img {
+      display: block;
+      width: min(100%, 220px);
+      aspect-ratio: 1;
+      border-radius: 24px;
+      box-shadow: 0 10px 24px rgba(18, 61, 43, 0.12);
+    }
+
+    .hero-diamonds {
+      padding: 9px 14px;
+      border: 1px solid #f0dfb8;
+      border-radius: 12px;
+      background: #fff;
+      font-weight: 800;
+    }
+
+    .primary-button, .secondary-button, .hint-button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .primary-button { background: var(--green); color: #fff; }
+    .primary-button:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .secondary-button { border: 1px solid var(--line); background: #fff; color: var(--ink); }
+    .secondary-button:hover { background: #f4f8f5; }
+    .hint-button { border: 1px solid #e8d49e; background: var(--gold-soft); color: #5d4612; }
+    .hint-button:hover:not(:disabled) { background: #ffedbd; }
+    button:disabled { cursor: not-allowed; opacity: 0.56; transform: none; }
+
+    .fine-print { margin: 11px 0 0; color: var(--muted); font-size: 13px; }
+
+    .quiz-topline {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
-      color: #557067;
-      font-size: 14px;
-      font-weight: bold;
+      margin-bottom: 18px;
     }
 
-    h1 { margin: 12px 0 6px; font-size: 32px; }
-
-    .intro {
-      margin: 0 0 24px;
-      color: #5c6b65;
-      line-height: 1.5;
+    .home-button {
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .progress-track {
       height: 9px;
-      margin: 18px 0 28px;
+      margin-bottom: 25px;
       overflow: hidden;
       border-radius: 99px;
-      background: #e5ece8;
+      background: #e8eee9;
     }
 
     .progress-bar {
       width: 0;
       height: 100%;
-      background: #21a67a;
-      transition: width 0.3s;
+      border-radius: inherit;
+      background: var(--green);
+      transition: width 0.25s ease;
+    }
+
+    .question-card {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+    }
+
+    .question-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 15px;
     }
 
     .tag {
-      display: inline-block;
-      padding: 7px 11px;
-      border-radius: 99px;
-      color: #147555;
-      background: #e4f6ee;
+      display: inline-flex;
+      min-height: 32px;
+      align-items: center;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green-dark);
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 800;
     }
 
+    .score-label { color: var(--muted); font-size: 14px; font-weight: 700; }
+
     h2 {
-      margin: 16px 0 20px;
-      font-size: 23px;
+      margin-bottom: 20px;
+      font-size: clamp(21px, 3vw, 27px);
       line-height: 1.35;
+      letter-spacing: -0.02em;
     }
 
     .choices { display: grid; gap: 11px; }
 
     .choice {
       width: 100%;
-      padding: 15px 16px;
-      border: 2px solid #e3eae6;
-      border-radius: 14px;
+      min-height: 54px;
+      padding: 13px 15px;
+      border: 2px solid #e2eae5;
+      border-radius: 13px;
       background: #fff;
-      color: #17221f;
+      color: var(--ink);
       text-align: left;
-      font-size: 16px;
-      line-height: 1.4;
+      line-height: 1.45;
       cursor: pointer;
     }
 
-    .choice:hover:not(:disabled) {
-      border-color: #21a67a;
-      background: #f5fcf8;
+    .choice:hover:not(:disabled) { border-color: #6eb391; background: #f7fcf8; }
+    .choice.correct { border-color: #46a171; background: #e8f5ed; }
+    .choice.wrong { border-color: #d87767; background: #fff0ec; }
+    .choice.eliminated { color: #78857e; text-decoration: line-through; background: #f4f6f4; }
+
+    .hint-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
     }
 
-    .choice:disabled { cursor: default; }
-    .choice.correct { border-color: #21a67a; background: #e8f8ef; }
-    .choice.wrong { border-color: #e28a76; background: #fff0ec; }
+    .hint-message { margin: 0; color: var(--muted); font-size: 14px; }
 
     .feedback {
-      display: none;
-      margin-top: 18px;
-      padding: 15px;
-      border-radius: 14px;
+      margin-top: 17px;
+      padding: 14px 15px;
+      border-radius: 12px;
       background: #f1f6f3;
       line-height: 1.5;
     }
 
-    .feedback.show { display: block; }
+    .feedback.good { border-left: 4px solid #46a171; }
+    .feedback.try-again { border-left: 4px solid #d5803b; }
+    .next-row { display: flex; justify-content: flex-end; margin-top: 17px; }
 
-    .next, .restart {
-      margin-top: 18px;
-      padding: 13px 20px;
-      border: 0;
-      border-radius: 12px;
-      background: #147555;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+    .result-card {
+      max-width: 590px;
+      margin: 8px auto;
+      padding: 34px 28px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #f8fbf9;
+      text-align: center;
     }
 
-    .next:hover, .restart:hover { background: #0e6145; }
-
-    .result { padding: 20px 0; text-align: center; }
-
-    .result .big-score {
-      margin: 18px 0;
-      color: #147555;
-      font-size: 42px;
-      font-weight: bold;
+    .result-score {
+      margin: 14px 0;
+      color: var(--green);
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
     }
 
-    @media (max-width: 500px) {
-      .game { padding: 23px; }
-      h1 { font-size: 28px; }
-      h2 { font-size: 20px; }
+    .reward-box {
+      display: inline-block;
+      margin: 10px 0 18px;
+      padding: 12px 16px;
+      border: 1px solid #eddaaa;
+      border-radius: 13px;
+      background: var(--gold-soft);
+      color: #5d4612;
+      font-weight: 800;
+    }
+
+    .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .app-shell { border-radius: 17px; }
+      .app-header { padding: 12px 14px; }
+      .brand { font-size: 16px; }
+      .brand img { width: 42px; height: 42px; }
+      .brand small { display: none; }
+      .diamond-pill, .music-button { min-height: 42px; padding: 7px 9px; font-size: 13px; }
+      .screen { padding: 16px; }
+      .hero-card { grid-template-columns: 1fr; gap: 20px; padding: 22px; }
+      .hero-art { grid-row: 1; }
+      .hero-art img { width: 132px; border-radius: 18px; }
+      .hero-card h1 { font-size: 34px; }
+      .hero-description { font-size: 16px; }
+      .question-card { padding: 18px; }
+      .question-meta { align-items: flex-start; }
+      .primary-button, .secondary-button, .hint-button { width: 100%; }
+      .result-actions { display: grid; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
-
 <body>
-  <main class="game">
-    <div class="topline">
-      <span>🎯 OFFICE READY</span>
-      <span id="scoreLabel">Score: 0</span>
-    </div>
+  <main class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <img src="./office-building-512.png" alt="" width="48" height="48" />
+        <div>Office Ready<small>Workplace challenge game</small></div>
+      </div>
+      <div class="header-actions">
+        <div class="diamond-pill" aria-label="Your diamonds">💎 <span id="headerDiamonds">0</span></div>
+        <button class="music-button" id="musicButton" type="button" aria-pressed="true">♫ Music: On</button>
+      </div>
+    </header>
 
-    <h1>Workplace Challenge</h1>
-    <p class="intro">
-      Try real-life work situations. Choose what you’d do, then learn from the feedback.
-    </p>
+    <section class="screen" id="welcomeScreen">
+      <div class="hero-card">
+        <div>
+          <span class="eyebrow">BUILD YOUR WORKPLACE SKILLS</span>
+          <h1>Ready for your first challenge?</h1>
+          <p class="hero-description">Practice real workplace moments, choose your response, and learn as you play.</p>
+          <ul class="feature-list">
+            <li>Play 10 fresh challenges each round.</li>
+            <li>Score 7 or more to win 10 diamonds.</li>
+            <li>Spend 5 diamonds to reveal a helpful hint.</li>
+          </ul>
+          <button class="primary-button" id="playButton" type="button">▶ Play challenge</button>
+          <p class="fine-print">Music starts after you press Play. You can turn it off anytime.</p>
+        </div>
+        <div class="hero-art">
+          <img src="./office-building-512.png" alt="Office building game icon" width="220" height="220" />
+          <div class="hero-diamonds">Your diamonds: 💎 <span id="welcomeDiamonds">0</span></div>
+        </div>
+      </div>
+    </section>
 
-    <div class="progress-track">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
+    <section class="screen" id="quizScreen" hidden>
+      <div class="quiz-topline">
+        <button class="home-button" id="homeButton" type="button">← Home</button>
+        <div class="diamond-pill">💎 <span id="quizDiamonds">0</span> diamonds</div>
+      </div>
+      <div class="progress-track" aria-label="Round progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <article class="question-card">
+        <div class="question-meta">
+          <span class="tag" id="questionTag"></span>
+          <span class="score-label" id="scoreLabel">Score: 0</span>
+        </div>
+        <h2 id="questionTitle"></h2>
+        <div class="choices" id="choices"></div>
+        <div class="hint-row">
+          <button class="hint-button" id="hintButton" type="button">💡 Use a hint · 5 💎</button>
+          <p class="hint-message" id="hintMessage" aria-live="polite">Hint removes one wrong answer.</p>
+        </div>
+        <div class="feedback" id="feedback" aria-live="polite" hidden></div>
+        <div class="next-row">
+          <button class="primary-button" id="nextButton" type="button" hidden>Next challenge</button>
+        </div>
+      </article>
+    </section>
 
-    <section id="gameArea"></section>
+    <section class="screen" id="resultScreen" hidden>
+      <div class="result-card">
+        <span class="tag">ROUND COMPLETE</span>
+        <h1 id="resultTitle">Your result</h1>
+        <div class="result-score" id="resultScore">0 / 10</div>
+        <p id="resultMessage"></p>
+        <div class="reward-box" id="rewardBox" hidden>💎 +10 diamonds added!</div>
+        <p class="fine-print">Your diamonds are saved on this device.</p>
+        <div class="result-actions">
+          <button class="primary-button" id="playAgainButton" type="button">Play again</button>
+          <button class="secondary-button" id="resultHomeButton" type="button">Back to home</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
-    const questionBank = [
-      // Communication (1–10)
-      {category:"Communication",question:"Your manager gives you a task, but the instructions are unclear. What do you do?",best:"Ask a few clear questions about the goal and deadline."},
-      {category:"Communication",question:"You aren't sure which of two deadlines is more urgent. What do you do?",best:"Tell your manager what you're working on and ask which deadline comes first."},
-      {category:"Communication",question:"You are blocked because you need information from someone. What do you do?",best:"Let them know what you need and explain how it affects your work."},
-      {category:"Communication",question:"You disagree with a coworker's suggestion. What do you do?",best:"Explain your concern respectfully and listen to their reasoning."},
-      {category:"Communication",question:"Someone gives you another task while you already have several due. What do you do?",best:"Share your current priorities and ask which task to prioritize."},
-      {category:"Communication",question:"You missed one detail in a meeting. What do you do?",best:"Ask a polite follow-up question to confirm the detail."},
-      {category:"Communication",question:"A coworker hasn't replied to a message you need answered. What do you do?",best:"Send a polite follow-up and explain when you need the answer."},
-      {category:"Communication",question:"You realize your work will be late. What do you do?",best:"Tell the relevant person early, explain the delay, and give a realistic new time."},
-      {category:"Communication",question:"You receive instructions and want to make sure you understood them. What do you do?",best:"Briefly repeat your understanding and ask if you got it right."},
-      {category:"Communication",question:"You have bad news about a project. What do you do?",best:"Share the facts promptly and suggest possible next steps."},
+    const rawQuestions = [
+      ["Communication","Your manager gives you a task, but the instructions are unclear. What do you do?","Ask a few clear questions about the goal and deadline."],
+      ["Communication","You aren't sure which of two deadlines is more urgent. What do you do?","Tell your manager what you're working on and ask which deadline comes first."],
+      ["Communication","You are blocked because you need information from someone. What do you do?","Let them know what you need and explain how it affects your work."],
+      ["Communication","You disagree with a coworker's suggestion. What do you do?","Explain your concern respectfully and listen to their reasoning."],
+      ["Communication","Someone gives you another task while you already have several due. What do you do?","Share your current priorities and ask which task to prioritize."],
+      ["Communication","You missed one detail in a meeting. What do you do?","Ask a polite follow-up question to confirm the detail."],
+      ["Communication","A coworker hasn't replied to a message you need answered. What do you do?","Send a polite follow-up and explain when you need the answer."],
+      ["Communication","You realize your work will be late. What do you do?","Tell the relevant person early, explain the delay, and give a realistic new time."],
+      ["Communication","You receive instructions and want to make sure you understood them. What do you do?","Briefly repeat your understanding and ask if you got it right."],
+      ["Communication","You have bad news about a project. What do you do?","Share the facts promptly and suggest possible next steps."],
 
-      // Teamwork (11–20)
-      {category:"Teamwork",question:"You finish your part of a shared project and notice a teammate is busy. What do you do?",best:"Ask whether there's a specific task you can help with."},
-      {category:"Teamwork",question:"A teammate makes a small mistake that affects your work. What do you do?",best:"Speak with them respectfully and work together to correct it."},
-      {category:"Teamwork",question:"A shared task is still unfinished near the deadline. What do you do?",best:"Check in with the team, clarify what remains, and agree on who will do it."},
-      {category:"Teamwork",question:"A teammate disagrees with your idea. What do you do?",best:"Ask about their concerns and compare both ideas against the project goal."},
-      {category:"Teamwork",question:"You want to help a coworker who seems overwhelmed. What do you do?",best:"Ask if they would like help and what task would be useful."},
-      {category:"Teamwork",question:"A teammate hasn't sent you information needed for your part. What do you do?",best:"Contact them politely, explain what you need, and agree on a handoff time."},
-      {category:"Teamwork",question:"Your team succeeds, and someone praises only you. What do you do?",best:"Thank them and recognize the teammates who contributed."},
-      {category:"Teamwork",question:"You are stuck and your teammates may know the answer. What do you do?",best:"Explain what you've tried and ask a focused question."},
-      {category:"Teamwork",question:"A coworker is handling several tasks at once. What do you do?",best:"Ask what support would help instead of taking over without asking."},
-      {category:"Teamwork",question:"You are handing a task to a teammate at the end of your shift. What do you do?",best:"Share the current status, key details, and the next action clearly."},
+      ["Teamwork","You finish your part of a shared project and notice a teammate is busy. What do you do?","Ask whether there's a specific task you can help with."],
+      ["Teamwork","A teammate makes a small mistake that affects your work. What do you do?","Speak with them respectfully and work together to correct it."],
+      ["Teamwork","A shared task is still unfinished near the deadline. What do you do?","Check in with the team, clarify what remains, and agree on who will do it."],
+      ["Teamwork","A teammate disagrees with your idea. What do you do?","Ask about their concerns and compare both ideas against the project goal."],
+      ["Teamwork","You want to help a coworker who seems overwhelmed. What do you do?","Ask if they would like help and what task would be useful."],
+      ["Teamwork","A teammate hasn't sent you information needed for your part. What do you do?","Contact them politely, explain what you need, and agree on a handoff time."],
+      ["Teamwork","Your team succeeds, and someone praises only you. What do you do?","Thank them and recognize the teammates who contributed."],
+      ["Teamwork","You are stuck and your teammates may know the answer. What do you do?","Explain what you've tried and ask a focused question."],
+      ["Teamwork","A coworker is handling several tasks at once. What do you do?","Ask what support would help instead of taking over without asking."],
+      ["Teamwork","You are handing a task to a teammate at the end of your shift. What do you do?","Share the current status, key details, and the next action clearly."],
 
-      // Time management (21–30)
-      {category:"Time management",question:"You have two tasks due today and may not finish both. What do you do?",best:"Raise the issue early and ask which task should come first."},
-      {category:"Time management",question:"A task is taking longer than you expected. What do you do?",best:"Review what remains and update your manager with a realistic completion time."},
-      {category:"Time management",question:"An urgent task arrives while you are working on something else. What do you do?",best:"Ask how urgent it is and confirm whether your current task should pause."},
-      {category:"Time management",question:"A large task feels difficult to start. What do you do?",best:"Break it into smaller steps and begin with the first one."},
-      {category:"Time management",question:"You finish your assigned work earlier than expected. What do you do?",best:"Check your work, then ask what useful task you should take on next."},
-      {category:"Time management",question:"You are asked how long a task will take, but you aren't sure. What do you do?",best:"Give a careful estimate and mention what could affect the timing."},
-      {category:"Time management",question:"You have several tasks to remember this week. What do you do?",best:"Write them down, note their deadlines, and review priorities each day."},
-      {category:"Time management",question:"You keep getting interrupted while doing focused work. What do you do?",best:"Let people know when you'll be available and protect time for the task."},
-      {category:"Time management",question:"A task has a deadline, but no one has said when to send a draft. What do you do?",best:"Ask whether an earlier draft or progress check is expected."},
-      {category:"Time management",question:"You may miss a scheduled check-in because of another task. What do you do?",best:"Tell the organizer as soon as possible and ask to reschedule or share an update."},
+      ["Time management","You have two tasks due today and may not finish both. What do you do?","Raise the issue early and ask which task should come first."],
+      ["Time management","A task is taking longer than you expected. What do you do?","Review what remains and update your manager with a realistic completion time."],
+      ["Time management","An urgent task arrives while you are working on something else. What do you do?","Ask how urgent it is and confirm whether your current task should pause."],
+      ["Time management","A large task feels difficult to start. What do you do?","Break it into smaller steps and begin with the first one."],
+      ["Time management","You finish your assigned work earlier than expected. What do you do?","Check your work, then ask what useful task you should take on next."],
+      ["Time management","You are asked how long a task will take, but you aren't sure. What do you do?","Give a careful estimate and mention what could affect the timing."],
+      ["Time management","You have several tasks to remember this week. What do you do?","Write them down, note their deadlines, and review priorities each day."],
+      ["Time management","You keep getting interrupted while doing focused work. What do you do?","Let people know when you'll be available and protect time for the task."],
+      ["Time management","A task has a deadline, but no one has said when to send a draft. What do you do?","Ask whether an earlier draft or progress check is expected."],
+      ["Time management","You may miss a scheduled check-in because of another task. What do you do?","Tell the organizer as soon as possible and ask to reschedule or share an update."],
 
-      // Problem-solving (31–40)
-      {category:"Problem-solving",question:"You find a mistake in a report you already sent. What do you do?",best:"Tell the relevant person, explain the correction, and send an updated report."},
-      {category:"Problem-solving",question:"A tool you need suddenly stops working. What do you do?",best:"Check basic troubleshooting steps, then report the problem with useful details."},
-      {category:"Problem-solving",question:"You don't know the answer to a customer's question. What do you do?",best:"Say you'll check, find the right information, and follow up."},
-      {category:"Problem-solving",question:"You spot a problem but aren't sure what caused it. What do you do?",best:"Gather the facts and ask the right person before deciding on a fix."},
-      {category:"Problem-solving",question:"A process keeps causing the same small delay. What do you do?",best:"Describe the pattern and suggest a practical improvement to your manager."},
-      {category:"Problem-solving",question:"You try a solution, but it doesn't work. What do you do?",best:"Share what you tried, note the result, and decide on the next step."},
-      {category:"Problem-solving",question:"You notice two files have conflicting information. What do you do?",best:"Check which source is current and confirm the correct information with its owner."},
-      {category:"Problem-solving",question:"You are asked to solve a problem but don't have enough information. What do you do?",best:"List the missing information and ask focused questions to get it."},
-      {category:"Problem-solving",question:"A small issue could affect a deadline if ignored. What do you do?",best:"Raise it early and explain the possible impact and a suggested solution."},
-      {category:"Problem-solving",question:"You need to choose between a quick fix and a reliable fix. What do you do?",best:"Check the risks and ask which option best meets the team's needs."},
+      ["Problem-solving","You find a mistake in a report you already sent. What do you do?","Tell the relevant person, explain the correction, and send an updated report."],
+      ["Problem-solving","A tool you need suddenly stops working. What do you do?","Check basic troubleshooting steps, then report the problem with useful details."],
+      ["Problem-solving","You don't know the answer to a customer's question. What do you do?","Say you'll check, find the right information, and follow up."],
+      ["Problem-solving","You spot a problem but aren't sure what caused it. What do you do?","Gather the facts and ask the right person before deciding on a fix."],
+      ["Problem-solving","A process keeps causing the same small delay. What do you do?","Describe the pattern and suggest a practical improvement to your manager."],
+      ["Problem-solving","You try a solution, but it doesn't work. What do you do?","Share what you tried, note the result, and decide on the next step."],
+      ["Problem-solving","You notice two files have conflicting information. What do you do?","Check which source is current and confirm the correct information with its owner."],
+      ["Problem-solving","You are asked to solve a problem but don't have enough information. What do you do?","List the missing information and ask focused questions to get it."],
+      ["Problem-solving","A small issue could affect a deadline if ignored. What do you do?","Raise it early and explain the possible impact and a suggested solution."],
+      ["Problem-solving","You need to choose between a quick fix and a reliable fix. What do you do?","Check the risks and ask which option best meets the team's needs."],
 
-      // Feedback (41–50)
-      {category:"Feedback",question:"Your manager gives you feedback on your work. What do you do?",best:"Listen, ask questions if needed, and identify what to improve next time."},
-      {category:"Feedback",question:"You don't understand one part of feedback you received. What do you do?",best:"Ask for a specific example so you know what to change."},
-      {category:"Feedback",question:"You receive feedback that surprises you. What do you do?",best:"Listen fully and take time to consider it before responding."},
-      {category:"Feedback",question:"A coworker asks for feedback on their draft. What do you do?",best:"Share specific, respectful comments about what works and what could improve."},
-      {category:"Feedback",question:"You have improved after receiving feedback. What do you do?",best:"Apply the improvement and, when useful, let the person know what you changed."},
-      {category:"Feedback",question:"You disagree with feedback about your work. What do you do?",best:"Ask for examples and explain your view respectfully."},
-      {category:"Feedback",question:"Your manager says a task needs revision but gives no details. What do you do?",best:"Ask which parts need revision and what a successful result should include."},
-      {category:"Feedback",question:"You notice the same feedback coming up more than once. What do you do?",best:"Make a plan to practice that skill and check your progress."},
-      {category:"Feedback",question:"You want feedback before submitting important work. What do you do?",best:"Ask for a review early enough to make changes."},
-      {category:"Feedback",question:"A teammate gives you feedback in a rushed tone. What do you do?",best:"Focus on the useful information and ask calmly if anything is unclear."},
+      ["Feedback","Your manager gives you feedback on your work. What do you do?","Listen, ask questions if needed, and identify what to improve next time."],
+      ["Feedback","You don't understand one part of feedback you received. What do you do?","Ask for a specific example so you know what to change."],
+      ["Feedback","You receive feedback that surprises you. What do you do?","Listen fully and take time to consider it before responding."],
+      ["Feedback","A coworker asks for feedback on their draft. What do you do?","Share specific, respectful comments about what works and what could improve."],
+      ["Feedback","You have improved after receiving feedback. What do you do?","Apply the improvement and, when useful, let the person know what you changed."],
+      ["Feedback","You disagree with feedback about your work. What do you do?","Ask for examples and explain your view respectfully."],
+      ["Feedback","Your manager says a task needs revision but gives no details. What do you do?","Ask which parts need revision and what a successful result should include."],
+      ["Feedback","You notice the same feedback coming up more than once. What do you do?","Make a plan to practice that skill and check your progress."],
+      ["Feedback","You want feedback before submitting important work. What do you do?","Ask for a review early enough to make changes."],
+      ["Feedback","A teammate gives you feedback in a rushed tone. What do you do?","Focus on the useful information and ask calmly if anything is unclear."],
 
-      // Customer service (51–60)
-      {category:"Customer service",question:"A customer is upset because something went wrong. What do you do first?",best:"Listen calmly, acknowledge the problem, and ask how you can help."},
-      {category:"Customer service",question:"A customer asks for something you aren't authorized to promise. What do you do?",best:"Explain what you can do and check with the right person before promising more."},
-      {category:"Customer service",question:"A customer says they already explained the issue to someone else. What do you do?",best:"Apologize for the repeated effort and ask them to briefly confirm the key details."},
-      {category:"Customer service",question:"You don't know how to answer a customer right away. What do you do?",best:"Tell them you'll find out and give a realistic time for your follow-up."},
-      {category:"Customer service",question:"A customer is speaking angrily. What do you do?",best:"Keep your voice calm, listen, and focus on understanding the problem."},
-      {category:"Customer service",question:"A customer reports a problem that may be outside your role. What do you do?",best:"Explain that you'll connect them with the right person and make the handoff clear."},
-      {category:"Customer service",question:"You discover you gave a customer incorrect information. What do you do?",best:"Correct the information promptly and apologize for the confusion."},
-      {category:"Customer service",question:"A customer asks for an update before you have one. What do you do?",best:"Give an honest update and tell them when you expect to know more."},
-      {category:"Customer service",question:"A customer has a request that conflicts with company policy. What do you do?",best:"Explain the policy politely and offer any allowed alternatives."},
-      {category:"Customer service",question:"A customer thanks you for helping them. What do you do?",best:"Respond warmly and make sure they have what they need before ending the conversation."},
+      ["Customer service","A customer is upset because something went wrong. What do you do first?","Listen calmly, acknowledge the problem, and ask how you can help."],
+      ["Customer service","A customer asks for something you aren't authorized to promise. What do you do?","Explain what you can do and check with the right person before promising more."],
+      ["Customer service","A customer says they already explained the issue to someone else. What do you do?","Apologize for the repeated effort and ask them to briefly confirm the key details."],
+      ["Customer service","You don't know how to answer a customer right away. What do you do?","Tell them you'll find out and give a realistic time for your follow-up."],
+      ["Customer service","A customer is speaking angrily. What do you do?","Keep your voice calm, listen, and focus on understanding the problem."],
+      ["Customer service","A customer reports a problem that may be outside your role. What do you do?","Explain that you'll connect them with the right person and make the handoff clear."],
+      ["Customer service","You discover you gave a customer incorrect information. What do you do?","Correct the information promptly and apologize for the confusion."],
+      ["Customer service","A customer asks for an update before you have one. What do you do?","Give an honest update and tell them when you expect to know more."],
+      ["Customer service","A customer has a request that conflicts with company policy. What do you do?","Explain the policy politely and offer any allowed alternatives."],
+      ["Customer service","A customer thanks you for helping them. What do you do?","Respond warmly and make sure they have what they need before ending the conversation."],
 
-      // Professionalism (61–70)
-      {category:"Professionalism",question:"You realize you will arrive late to work. What do you do?",best:"Notify the appropriate person as early as possible and give your estimated arrival time."},
-      {category:"Professionalism",question:"You make a mistake that affects your team's work. What do you do?",best:"Take responsibility, explain what happened, and help correct it."},
-      {category:"Professionalism",question:"A coworker shares private information about someone else. What do you do?",best:"Avoid spreading it and keep the conversation respectful and work-appropriate."},
-      {category:"Professionalism",question:"You receive a work message that sounds frustrating. What do you do?",best:"Pause, check the facts, and reply calmly and professionally."},
-      {category:"Professionalism",question:"You finish a shift but still have an unfinished handoff. What do you do?",best:"Tell the right teammate what is unfinished and what needs attention next."},
-      {category:"Professionalism",question:"You aren't sure what the workplace dress expectations are. What do you do?",best:"Ask your manager or check the workplace guidance."},
-      {category:"Professionalism",question:"You are asked to do something that seems unsafe. What do you do?",best:"Pause the task and speak with your manager or safety contact."},
-      {category:"Professionalism",question:"You cannot attend a meeting you accepted. What do you do?",best:"Tell the organizer promptly and share any update they need from you."},
-      {category:"Professionalism",question:"You see a coworker being treated disrespectfully. What do you do?",best:"Support respectful behavior and raise the concern through an appropriate channel."},
-      {category:"Professionalism",question:"You are unsure whether a work document can be shared externally. What do you do?",best:"Check the sharing rules or ask an authorized person before sending it."},
+      ["Professionalism","You realize you will arrive late to work. What do you do?","Notify the appropriate person as early as possible and give your estimated arrival time."],
+      ["Professionalism","You make a mistake that affects your team's work. What do you do?","Take responsibility, explain what happened, and help correct it."],
+      ["Professionalism","A coworker shares private information about someone else. What do you do?","Avoid spreading it and keep the conversation respectful and work-appropriate."],
+      ["Professionalism","You receive a work message that sounds frustrating. What do you do?","Pause, check the facts, and reply calmly and professionally."],
+      ["Professionalism","You finish a shift but still have an unfinished handoff. What do you do?","Tell the right teammate what is unfinished and what needs attention next."],
+      ["Professionalism","You aren't sure what the workplace dress expectations are. What do you do?","Ask your manager or check the workplace guidance."],
+      ["Professionalism","You are asked to do something that seems unsafe. What do you do?","Pause the task and speak with your manager or safety contact."],
+      ["Professionalism","You cannot attend a meeting you accepted. What do you do?","Tell the organizer promptly and share any update they need from you."],
+      ["Professionalism","You see a coworker being treated disrespectfully. What do you do?","Support respectful behavior and raise the concern through an appropriate channel."],
+      ["Professionalism","You are unsure whether a work document can be shared externally. What do you do?","Check the sharing rules or ask an authorized person before sending it."],
 
-      // Adaptability (71–80)
-      {category:"Adaptability",question:"Your team changes the plan halfway through a project. What do you do?",best:"Confirm the new goal and adjust your next steps."},
-      {category:"Adaptability",question:"You are assigned a task you haven't done before. What do you do?",best:"Ask about the expected result, then learn the steps and try."},
-      {category:"Adaptability",question:"A new tool replaces one you already know. What do you do?",best:"Learn the new tool using available guidance and ask focused questions."},
-      {category:"Adaptability",question:"Your usual way of doing a task is no longer working. What do you do?",best:"Ask what has changed and adapt your approach to the current requirements."},
-      {category:"Adaptability",question:"A teammate asks you to switch tasks to help with an urgent need. What do you do?",best:"Check priorities with the relevant person and agree on what to pause."},
-      {category:"Adaptability",question:"You receive a last-minute change to a presentation. What do you do?",best:"Confirm the most important changes and update those first."},
-      {category:"Adaptability",question:"You are moved to a different team for a short project. What do you do?",best:"Learn the team's goals, roles, and preferred way of communicating."},
-      {category:"Adaptability",question:"Your first attempt at a new task doesn't go well. What do you do?",best:"Ask what to improve, learn from the attempt, and try again."},
-      {category:"Adaptability",question:"A sudden change affects your planned workday. What do you do?",best:"Recheck your priorities and tell people who may be affected."},
-      {category:"Adaptability",question:"You need to work with someone whose style is different from yours. What do you do?",best:"Ask how they prefer to coordinate and agree on a clear way to work together."},
+      ["Adaptability","Your team changes the plan halfway through a project. What do you do?","Confirm the new goal and adjust your next steps."],
+      ["Adaptability","You are assigned a task you haven't done before. What do you do?","Ask about the expected result, then learn the steps and try."],
+      ["Adaptability","A new tool replaces one you already know. What do you do?","Learn the new tool using available guidance and ask focused questions."],
+      ["Adaptability","Your usual way of doing a task is no longer working. What do you do?","Ask what has changed and adapt your approach to the current requirements."],
+      ["Adaptability","A teammate asks you to switch tasks to help with an urgent need. What do you do?","Check priorities with the relevant person and agree on what to pause."],
+      ["Adaptability","You receive a last-minute change to a presentation. What do you do?","Confirm the most important changes and update those first."],
+      ["Adaptability","You are moved to a different team for a short project. What do you do?","Learn the team's goals, roles, and preferred way of communicating."],
+      ["Adaptability","Your first attempt at a new task doesn't go well. What do you do?","Ask what to improve, learn from the attempt, and try again."],
+      ["Adaptability","A sudden change affects your planned workday. What do you do?","Recheck your priorities and tell people who may be affected."],
+      ["Adaptability","You need to work with someone whose style is different from yours. What do you do?","Ask how they prefer to coordinate and agree on a clear way to work together."],
 
-      // Meetings (81–90)
-      {category:"Meetings",question:"You are invited to a meeting but don't know why you are needed. What do you do?",best:"Ask what the meeting is for and whether you should prepare anything."},
-      {category:"Meetings",question:"You have an idea but are nervous about speaking in a meeting. What do you do?",best:"Wait for a suitable pause and share your idea briefly."},
-      {category:"Meetings",question:"You disagree with a point raised in a meeting. What do you do?",best:"Share your concern respectfully and explain the reason behind it."},
-      {category:"Meetings",question:"The meeting is ending, but you aren't clear about your action item. What do you do?",best:"Ask who owns the task and when it is due before the meeting ends."},
-      {category:"Meetings",question:"You are leading a short team meeting. What do you do first?",best:"State the goal and the topics you need to cover."},
-      {category:"Meetings",question:"A discussion moves away from the meeting goal. What do you do?",best:"Politely bring the conversation back to the main topic."},
-      {category:"Meetings",question:"You cannot answer a question during a meeting. What do you do?",best:"Say you will check the information and follow up by an agreed time."},
-      {category:"Meetings",question:"You will arrive late to an online meeting. What do you do?",best:"Message the organizer and join quietly when you can."},
-      {category:"Meetings",question:"You want to remember the decisions from a meeting. What do you do?",best:"Write down the decisions, owners, and deadlines."},
-      {category:"Meetings",question:"A meeting ends without a clear decision. What do you do?",best:"Ask what decision is needed, who will make it, and by when."},
+      ["Meetings","You are invited to a meeting but don't know why you are needed. What do you do?","Ask what the meeting is for and whether you should prepare anything."],
+      ["Meetings","You have an idea but are nervous about speaking in a meeting. What do you do?","Wait for a suitable pause and share your idea briefly."],
+      ["Meetings","You disagree with a point raised in a meeting. What do you do?","Share your concern respectfully and explain the reason behind it."],
+      ["Meetings","The meeting is ending, but you aren't clear about your action item. What do you do?","Ask who owns the task and when it is due before the meeting ends."],
+      ["Meetings","You are leading a short team meeting. What do you do first?","State the goal and the topics you need to cover."],
+      ["Meetings","A discussion moves away from the meeting goal. What do you do?","Politely bring the conversation back to the main topic."],
+      ["Meetings","You cannot answer a question during a meeting. What do you do?","Say you will check the information and follow up by an agreed time."],
+      ["Meetings","You will arrive late to an online meeting. What do you do?","Message the organizer and join quietly when you can."],
+      ["Meetings","You want to remember the decisions from a meeting. What do you do?","Write down the decisions, owners, and deadlines."],
+      ["Meetings","A meeting ends without a clear decision. What do you do?","Ask what decision is needed, who will make it, and by when."],
 
-      // Learning and initiative (91–100)
-      {category:"Learning",question:"You have a quiet moment after finishing your assigned tasks. What do you do?",best:"Ask your manager what useful task or skill you should focus on next."},
-      {category:"Learning",question:"You want to learn a skill that would help your job. What do you do?",best:"Tell your manager which skill you want to learn and ask for a practical way to practice."},
-      {category:"Learning",question:"You see a process that could be improved. What do you do?",best:"Describe the problem and suggest a small change for the team to consider."},
-      {category:"Learning",question:"You are new and unsure who handles a certain issue. What do you do?",best:"Check the team guidance or ask your manager who owns that area."},
-      {category:"Learning",question:"You finish a task and want to improve next time. What do you do?",best:"Review what went well and choose one thing to improve."},
-      {category:"Learning",question:"You are asked to use a spreadsheet feature you don't know. What do you do?",best:"Use approved learning resources and ask for help if you get stuck."},
-      {category:"Learning",question:"You notice a helpful resource that could save your team time. What do you do?",best:"Share it with the team and explain how it could help."},
-      {category:"Learning",question:"You want more responsibility at work. What do you do?",best:"Ask your manager about a suitable next task and what skills it requires."},
-      {category:"Learning",question:"You are unsure whether your work meets expectations. What do you do?",best:"Ask for an example of a good result and compare your work against it."},
-      {category:"Learning",question:"You want to build confidence doing a task independently. What do you do?",best:"Confirm the goal, try the task, and ask for feedback afterward."}
-    ].map((question, index) => ({ ...question, id: index }));
+      ["Learning","You have a quiet moment after finishing your assigned tasks. What do you do?","Ask your manager what useful task or skill you should focus on next."],
+      ["Learning","You want to learn a skill that would help your job. What do you do?","Tell your manager which skill you want to learn and ask for a practical way to practice."],
+      ["Learning","You see a process that could be improved. What do you do?","Describe the problem and suggest a small change for the team to consider."],
+      ["Learning","You are new and unsure who handles a certain issue. What do you do?","Check the team guidance or ask your manager who owns that area."],
+      ["Learning","You finish a task and want to improve next time. What do you do?","Review what went well and choose one thing to improve."],
+      ["Learning","You are asked to use a spreadsheet feature you don't know. What do you do?","Use approved learning resources and ask for help if you get stuck."],
+      ["Learning","You notice a helpful resource that could save your team time. What do you do?","Share it with the team and explain how it could help."],
+      ["Learning","You want more responsibility at work. What do you do?","Ask your manager about a suitable next task and what skills it requires."],
+      ["Learning","You are unsure whether your work meets expectations. What do you do?","Ask for an example of a good result and compare your work against it."],
+      ["Learning","You want to build confidence doing a task independently. What do you do?","Confirm the goal, try the task, and ask for feedback afterward."]
+    ];
 
+    const questionBank = rawQuestions.map(([category, question, best], id) => ({ id, category, question, best }));
     const ROUND_SIZE = 10;
+    const WIN_SCORE = 7;
+    const WIN_REWARD = 10;
+    const HINT_COST = 5;
+    const diamondKey = "officeReadyDiamonds_v1";
+    const musicKey = "officeReadyMusic_v1";
+
+    const $ = (id) => document.getElementById(id);
+    const welcomeScreen = $("welcomeScreen");
+    const quizScreen = $("quizScreen");
+    const resultScreen = $("resultScreen");
+    const choicesEl = $("choices");
+    const hintButton = $("hintButton");
+    const hintMessage = $("hintMessage");
+    const feedback = $("feedback");
+    const nextButton = $("nextButton");
+    const musicButton = $("musicButton");
 
     const distractors = [
       "Ignore the issue and hope it goes away.",
@@ -297,177 +587,267 @@
     let currentQuestion = 0;
     let score = 0;
     let answered = false;
+    let usedHint = false;
     let roundQuestions = [];
     let questionDeck = [];
     let lastRoundIds = [];
+    let diamonds = loadDiamonds();
+    let musicEnabled = loadMusicSetting();
+    let audioContext = null;
+    let musicTimer = null;
+    let musicStep = 0;
 
-    const gameArea = document.getElementById("gameArea");
-    const scoreLabel = document.getElementById("scoreLabel");
-    const progressBar = document.getElementById("progressBar");
+    function loadDiamonds() {
+      try { return Math.max(0, Number(localStorage.getItem(diamondKey)) || 0); }
+      catch { return 0; }
+    }
+
+    function saveDiamonds() {
+      try { localStorage.setItem(diamondKey, String(diamonds)); } catch {}
+      updateDiamondDisplays();
+    }
+
+    function loadMusicSetting() {
+      try {
+        const value = localStorage.getItem(musicKey);
+        return value === null ? true : value === "true";
+      } catch { return true; }
+    }
+
+    function saveMusicSetting() {
+      try { localStorage.setItem(musicKey, String(musicEnabled)); } catch {}
+    }
+
+    function updateDiamondDisplays() {
+      $("headerDiamonds").textContent = diamonds;
+      $("welcomeDiamonds").textContent = diamonds;
+      $("quizDiamonds").textContent = diamonds;
+    }
+
+    function showScreen(screen) {
+      welcomeScreen.hidden = screen !== "welcome";
+      quizScreen.hidden = screen !== "quiz";
+      resultScreen.hidden = screen !== "result";
+    }
 
     function shuffle(list) {
       const result = [...list];
-
       for (let i = result.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [result[i], result[j]] = [result[j], result[i]];
       }
-
       return result;
     }
 
     function sameSet(a, b) {
-      return [...a].sort((x, y) => x - y).join(",") ===
-             [...b].sort((x, y) => x - y).join(",");
+      return [...a].sort((x, y) => x - y).join(",") === [...b].sort((x, y) => x - y).join(",");
     }
 
     function drawRound() {
       const batch = [];
-
       while (batch.length < ROUND_SIZE) {
         if (questionDeck.length === 0) {
           questionDeck = shuffle(questionBank);
-
           while (
             lastRoundIds.length === ROUND_SIZE &&
-            sameSet(
-              questionDeck.slice(0, ROUND_SIZE).map(q => q.id),
-              lastRoundIds
-            )
+            sameSet(questionDeck.slice(0, ROUND_SIZE).map(q => q.id), lastRoundIds)
           ) {
             questionDeck = shuffle(questionBank);
           }
         }
-
         batch.push(questionDeck.shift());
       }
-
       lastRoundIds = batch.map(q => q.id);
 
       return batch.map(question => {
         const options = [
           { text: question.best, correct: true },
-          ...shuffle(distractors)
-            .slice(0, 2)
-            .map(text => ({ text, correct: false }))
+          ...shuffle(distractors).slice(0, 2).map(text => ({ text, correct: false }))
         ];
-
         const choices = shuffle(options);
-
-        return {
-          ...question,
-          choices,
-          correctIndex: choices.findIndex(choice => choice.correct)
-        };
+        return { ...question, choices, correctIndex: choices.findIndex(choice => choice.correct) };
       });
     }
 
-    function startNewGame() {
+    function updateMusicButton() {
+      musicButton.textContent = musicEnabled ? "♫ Music: On" : "♫ Music: Off";
+      musicButton.setAttribute("aria-pressed", String(musicEnabled));
+      musicButton.setAttribute("aria-label", musicEnabled ? "Turn background music off" : "Turn background music on");
+    }
+
+    function playTone(frequency, duration, volume, type) {
+      if (!audioContext || !musicEnabled) return;
+      const now = audioContext.currentTime;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(volume, now + 0.035);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start(now);
+      oscillator.stop(now + duration + 0.02);
+    }
+
+    function scheduleMusic() {
+      if (!musicEnabled || !audioContext) return;
+      const melody = [392, 440, 523.25, 440, 349.23, 392, 440, 392, 329.63, 392, 493.88, 392, 349.23, 329.63, 293.66, 329.63];
+      const note = melody[musicStep % melody.length];
+      playTone(note, 0.48, 0.022, "sine");
+      if (musicStep % 4 === 0) playTone(note / 2, 0.85, 0.009, "triangle");
+      musicStep++;
+      musicTimer = window.setTimeout(scheduleMusic, 610);
+    }
+
+    async function startMusic() {
+      if (!musicEnabled) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+      if (!audioContext) audioContext = new AudioContextClass();
+      if (audioContext.state === "suspended") await audioContext.resume();
+      if (musicTimer === null) scheduleMusic();
+    }
+
+    function stopMusic() {
+      if (musicTimer !== null) window.clearTimeout(musicTimer);
+      musicTimer = null;
+    }
+
+    musicButton.addEventListener("click", async () => {
+      musicEnabled = !musicEnabled;
+      saveMusicSetting();
+      updateMusicButton();
+      if (musicEnabled) await startMusic(); else stopMusic();
+    });
+
+    function startNewRound() {
       currentQuestion = 0;
       score = 0;
       roundQuestions = drawRound();
-      showQuestion();
+      showScreen("quiz");
+      renderQuestion();
+      startMusic();
     }
 
-    function showQuestion() {
+    function renderQuestion() {
       answered = false;
+      usedHint = false;
+      const item = roundQuestions[currentQuestion];
+      $("questionTag").textContent = `${item.category} · Challenge ${currentQuestion + 1} of ${ROUND_SIZE}`;
+      $("questionTitle").textContent = item.question;
+      $("scoreLabel").textContent = `Score: ${score}`;
+      $("progressBar").style.width = `${(currentQuestion / ROUND_SIZE) * 100}%`;
+      choicesEl.innerHTML = "";
+
+      item.choices.forEach((choice, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice";
+        button.textContent = choice.text;
+        button.addEventListener("click", () => chooseAnswer(index));
+        choicesEl.appendChild(button);
+      });
+
+      feedback.hidden = true;
+      feedback.className = "feedback";
+      feedback.textContent = "";
+      nextButton.hidden = true;
+      nextButton.textContent = currentQuestion === ROUND_SIZE - 1 ? "See my result" : "Next challenge";
+      hintButton.disabled = false;
+      hintMessage.textContent = diamonds >= HINT_COST
+        ? "Hint removes one wrong answer."
+        : `Win a round to earn diamonds; a hint costs ${HINT_COST}.`;
+      updateDiamondDisplays();
+    }
+
+    function useHint() {
+      if (answered || usedHint) return;
+      if (diamonds < HINT_COST) {
+        hintMessage.textContent = `You need ${HINT_COST} diamonds. Win with ${WIN_SCORE}/${ROUND_SIZE} to earn ${WIN_REWARD}.`;
+        return;
+      }
 
       const item = roundQuestions[currentQuestion];
+      const wrongIndexes = item.choices
+        .map((choice, index) => ({ choice, index }))
+        .filter(entry => !entry.choice.correct)
+        .map(entry => entry.index);
 
-      scoreLabel.textContent = `Score: ${score}`;
-      progressBar.style.width =
-        `${(currentQuestion / roundQuestions.length) * 100}%`;
-
-      gameArea.innerHTML = `
-        <span class="tag">
-          ${item.category} · Challenge ${currentQuestion + 1} of ${roundQuestions.length}
-        </span>
-        <h2>${item.question}</h2>
-        <div class="choices">
-          ${item.choices.map((choice, index) =>
-            `<button class="choice" onclick="chooseAnswer(${index})">${choice.text}</button>`
-          ).join("")}
-        </div>
-        <div class="feedback" id="feedback"></div>
-        <button class="next" id="nextButton" onclick="nextQuestion()" hidden>
-          ${currentQuestion === roundQuestions.length - 1
-            ? "See my result"
-            : "Next challenge"}
-        </button>
-      `;
+      const removeIndex = shuffle(wrongIndexes)[0];
+      const optionButtons = choicesEl.querySelectorAll(".choice");
+      optionButtons[removeIndex].disabled = true;
+      optionButtons[removeIndex].classList.add("eliminated");
+      diamonds -= HINT_COST;
+      saveDiamonds();
+      usedHint = true;
+      hintButton.disabled = true;
+      hintMessage.textContent = "Hint used: one wrong answer removed.";
     }
+
+    hintButton.addEventListener("click", useHint);
 
     function chooseAnswer(selected) {
       if (answered) return;
       answered = true;
 
       const item = roundQuestions[currentQuestion];
-      const buttons = document.querySelectorAll(".choice");
+      const optionButtons = choicesEl.querySelectorAll(".choice");
 
-      buttons.forEach((button, index) => {
+      optionButtons.forEach((button, index) => {
         button.disabled = true;
-
-        if (index === item.correctIndex) {
-          button.classList.add("correct");
-        }
-
-        if (index === selected && selected !== item.correctIndex) {
-          button.classList.add("wrong");
-        }
+        if (index === item.correctIndex) button.classList.add("correct");
+        if (index === selected && selected !== item.correctIndex) button.classList.add("wrong");
       });
 
       const isCorrect = selected === item.correctIndex;
+      if (isCorrect) score++;
 
-      if (isCorrect) {
-        score++;
-        scoreLabel.textContent = `Score: ${score}`;
-      }
-
-      const feedback = document.getElementById("feedback");
-
+      $("scoreLabel").textContent = `Score: ${score}`;
+      feedback.hidden = false;
+      feedback.className = `feedback ${isCorrect ? "good" : "try-again"}`;
       feedback.innerHTML = isCorrect
         ? "<strong>Good choice!</strong> That is a professional way to handle the situation."
         : `<strong>Not quite.</strong> A stronger response would be: ${item.best}`;
 
-      feedback.classList.add("show");
-      document.getElementById("nextButton").hidden = false;
+      hintButton.disabled = true;
+      hintMessage.textContent = usedHint ? "Hint used for this challenge." : "Answer locked in.";
+      nextButton.hidden = false;
     }
 
     function nextQuestion() {
       currentQuestion++;
-
-      if (currentQuestion < roundQuestions.length) {
-        showQuestion();
-      } else {
-        showResult();
-      }
+      if (currentQuestion < ROUND_SIZE) renderQuestion();
+      else finishRound();
     }
 
-    function showResult() {
-      progressBar.style.width = "100%";
-      scoreLabel.textContent =
-        `Final score: ${score}/${roundQuestions.length}`;
+    function finishRound() {
+      $("progressBar").style.width = "100%";
+      const won = score >= WIN_SCORE;
 
-      let message = "Keep practicing—you’ll get more confident with every round.";
-
-      if (score === roundQuestions.length) {
-        message = "Excellent work! You handled every challenge thoughtfully.";
-      } else if (score >= Math.ceil(roundQuestions.length / 2)) {
-        message = "Nice job! Keep practicing to build your workplace skills.";
+      if (won) {
+        diamonds += WIN_REWARD;
+        saveDiamonds();
       }
 
-      gameArea.innerHTML = `
-        <div class="result">
-          <span class="tag">CHALLENGE COMPLETE</span>
-          <h2>Your workplace-ready score</h2>
-          <div class="big-score">${score} / ${roundQuestions.length}</div>
-          <p>${message}</p>
-          <button class="restart" onclick="startNewGame()">Play again</button>
-        </div>
-      `;
+      $("resultTitle").textContent = won ? "You won this round!" : "Good practice!";
+      $("resultScore").textContent = `${score} / ${ROUND_SIZE}`;
+      $("resultMessage").textContent = won
+        ? `You scored ${score}; ${WIN_SCORE} were needed to win. Keep it up and try another round!`
+        : `You need ${WIN_SCORE} correct answers to win. Try again and build your workplace skills.`;
+      $("rewardBox").hidden = !won;
+      showScreen("result");
     }
 
-    startNewGame();
+    $("playButton").addEventListener("click", startNewRound);
+    $("nextButton").addEventListener("click", nextQuestion);
+    $("playAgainButton").addEventListener("click", startNewRound);
+    $("homeButton").addEventListener("click", () => showScreen("welcome"));
+    $("resultHomeButton").addEventListener("click", () => showScreen("welcome"));
+
+    updateDiamondDisplays();
+    updateMusicButton();
   </script>
 </body>
 </html>
