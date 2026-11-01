@@ -1,0 +1,10 @@
+{
+  "name": "Office Ready",
+  "short_name": "Office Ready",
+  "description": "Practice real-life workplace situations and build job skills.",
+  "start_url": "/Office-Ready-Game/",
+  "scope": "/Office-Ready-Game/",
+  "display": "standalone",
+  "background_color": "#eaf2ed",
+  "theme_color": "#147555"
+}
